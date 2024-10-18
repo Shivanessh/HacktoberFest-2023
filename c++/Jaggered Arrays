@@ -1,21 +1,46 @@
 #include <iostream>
 #include <vector>
 using namespace std;
+
 int main() {
     int row;
-    cin>>row;
-    int col;
-    
-    int sizes[1000];
-    int** arr=new int *[row];
-    for(int i=0;i<row;i++){
-        cout<<"enter the size of subarray"<<endl;
-        cin>>col;
-        sizes[i]=col;
-        arr[i]=new int [sizes[i]];
+    cout << "Enter the number of rows: ";
+    cin >> row;
+
+    // Array to store sizes of each subarray
+    int* sizes = new int[row]; // Dynamic allocation for sizes
+    int** arr = new int*[row];  // Dynamic allocation for array of pointers
+
+    // Input sizes of subarrays and allocate memory
+    for (int i = 0; i < row; i++) {
+        cout << "Enter the size of subarray " << i + 1 << ": ";
+        cin >> sizes[i];
+        arr[i] = new int[sizes[i]]; // Allocate memory for each subarray
     }
-    for(int i=0;i<row;i++){
-        
-        for(int j=0;j<sizes[i];j++){
-            cin>>arr[i][j];
+
+    // Input elements of each subarray
+    for (int i = 0; i < row; i++) {
+        cout << "Enter elements for subarray " << i + 1 << ": ";
+        for (int j = 0; j < sizes[i]; j++) {
+            cin >> arr[i][j];
         }
+    }
+
+    // Output the 2D array
+    cout << "The 2D array is:" << endl;
+    for (int i = 0; i < row; i++) {
+        for (int j = 0; j < sizes[i]; j++) {
+            cout << arr[i][j] << " ";
+        }
+        cout << endl; // New line after each subarray
+    }
+
+    // Deallocate memory
+    for (int i = 0; i < row; i++) {
+        delete[] arr[i]; // Deallocate each subarray
+    }
+    delete[] arr; // Deallocate the array of pointers
+    delete[] sizes; // Deallocate the sizes array
+
+    return 0;
+}
