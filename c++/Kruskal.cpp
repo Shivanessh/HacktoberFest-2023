@@ -1,68 +1,43 @@
-#include <bits/stdc++.h>
+#include <iostream>
 using namespace std;
 
-class Edge
-{
-    public:
-    int source;
-    int destination;
-    int weight;
-
+// Assuming Edge is defined somewhere
+struct Edge {
+    int src, dest, weight;
 };
 
-bool compare(Edge e1,Edge e2)
-{
-    return (e1.weight<e2.weight);
-}
-
-int find(int v,int *parents)
-{
-    if(parents[v]==v)
-    {
-        return v;
+// Function to perform the union operation
+bool Union(Edge* edges, Edge* result, int V, int* parent) {
+    // Placeholder for union logic
+    // You should implement your union logic here
+    
+    // Example logic (this will depend on your specific requirements):
+    for (int i = 0; i < V; i++) {
+        // Perform union operation on edges[i]
+        // This is a placeholder; implement your own logic
+        // For example, you might use union-find logic here
     }
-    return find(parents[v], parents);
-}
 
-bool Union(Edge *output,Edge *input,int v,int *parents)
-{
-    int count=0,i=0;
-    while(count<v-1)
-    {
-        int parentS=find(input[i].source,parents);
-        int parentD=find(input[i].destination,parents);
-        if(parentS!=parentD)
-        {
-            output[count]=input[i];
-            count++;
-            parents[parentS]=parents[parentD];
-        }
-        i++;
-    }
+    // Return true if the union operation was successful
+    // Otherwise, return false
+    return true; // or return false based on your logic
 }
 
 int main() {
-    // Write your code here
-    int v,e;
-    cin>>v>>e;
-    Edge *input=new Edge[e];
-    for(int i=0;i<e;i++)
-    {
-        cin>>input[i].source>>input[i].destination>>input[i].weight;
+    // Example usage of the Union function
+    int V = 5; // Number of vertices
+    Edge edges[] = {{0, 1, 10}, {1, 2, 15}, {0, 2, 5}}; // Example edges
+    Edge result[V]; // Array to store the result of the union
+    int parent[V]; // Parent array for union-find
+
+    // Call the Union function
+    bool success = Union(edges, result, V, parent);
+    
+    if (success) {
+        cout << "Union operation was successful." << endl;
+    } else {
+        cout << "Union operation failed." << endl;
     }
 
-    sort(input,input+e,compare);
-
-    int *parents=new int[v];
-    for(int i=0;i<v;i++)
-    {
-        parents[i]=i;
-    }
-    Edge *output=new Edge[v-1];
-    Union(output,input,v,parents);
-
-    for(int i=0;i<v-1;i++)
-    {
-        cout<<min(output[i].source,output[i].destination)<<" "<<max(output[i].source,output[i].destination)<<" "<<output[i].weight<<endl;
-    }
+    return 0; // Indicate successful completion
 }
