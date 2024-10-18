@@ -23,6 +23,16 @@ void postOrderTraversal(TreeNode* root) {
     std::cout << root->val << " ";
 }
 
+// Function to delete the tree and free memory
+void deleteTree(TreeNode* root) {
+    if (root == nullptr) {
+        return;
+    }
+    deleteTree(root->left);
+    deleteTree(root->right);
+    delete root;
+}
+
 int main() {
     // Create a sample binary tree
     TreeNode* root = new TreeNode(1);
@@ -34,4 +44,10 @@ int main() {
     // Perform post-order traversal
     std::cout << "Post-Order Traversal: ";
     postOrderTraversal(root);
-    std::
+    std::cout << std::endl;
+
+    // Clean up memory
+    deleteTree(root);
+
+    return 0;
+}
