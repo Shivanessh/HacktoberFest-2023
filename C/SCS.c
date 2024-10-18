@@ -1,4 +1,3 @@
-//Script to find the Shortest COmmon Subsequence
 #include <stdio.h>
 #include <string.h>
 
@@ -6,22 +5,20 @@ int max(int a, int b) {
     return (a > b) ? a : b;
 }
 
-int shortestCommonSupersequenceLength(char X[], char Y[]) {
+int shortestCommonSupersequenceLength(char X[], char Y[], int dp[][strlen(Y) + 1]) {
     int m = strlen(X);
     int n = strlen(Y);
-
-    int dp[m + 1][n + 1];
 
     for (int i = 0; i <= m; i++) {
         for (int j = 0; j <= n; j++) {
             if (i == 0)
-                dp[i][j] = j;
+                dp[i][j] = j; // If X is empty, the SCS is Y's length
             else if (j == 0)
-                dp[i][j] = i;
+                dp[i][j] = i; // If Y is empty, the SCS is X's length
             else if (X[i - 1] == Y[j - 1])
-                dp[i][j] = 1 + dp[i - 1][j - 1];
+                dp[i][j] = 1 + dp[i - 1][j - 1]; // Characters match
             else
-                dp[i][j] = 1 + max(dp[i - 1][j], dp[i][j - 1]);
+                dp[i][j] = 1 + max(dp[i - 1][j], dp[i][j - 1]); // Choose the best option
         }
     }
 
@@ -31,7 +28,9 @@ int shortestCommonSupersequenceLength(char X[], char Y[]) {
 void printSCS(char X[], char Y[]) {
     int m = strlen(X);
     int n = strlen(Y);
-    int SCSLength = shortestCommonSupersequenceLength(X, Y);
+    int dp[m + 1][n + 1]; // Declare the dp array here
+
+    int SCSLength = shortestCommonSupersequenceLength(X, Y, dp);
     char SCS[SCSLength + 1];
 
     int i = m, j = n, k = SCSLength;
@@ -65,17 +64,22 @@ void printSCS(char X[], char Y[]) {
         k--;
     }
 
-    SCS[SCSLength] = '\0';
+    SCS[SCSLength] = '\0'; // Null-terminate the string
 
+    // Reverse the SCS since it was constructed backwards
+    for (int l = 0; l < SCSLength / 2; l++) {
+        char temp = SCS[l];
+        SCS[l] = SCS[SCSLength - l - 1];
+        SCS[SCSLength - l - 1] = temp;
+    }
+
+    printf("Length of Shortest Common Supersequence: %d\n", SCSLength);
     printf("Shortest Common Supersequence: %s\n", SCS);
 }
 
 int main() {
     char X[] = "ABCBDAB";
     char Y[] = "BDCABA";
-
-    int SCSLength = shortestCommonSupersequenceLength(X, Y);
-    printf("Length of Shortest Common Supersequence: %d\n", SCSLength);
 
     printSCS(X, Y);
 
